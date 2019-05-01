@@ -1,80 +1,93 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://rest-api-app-bookinfo.herokuapp.com/
 
-# Niaz Bin Siraj
+# Book Info
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+A simple API allowing users to interact with Book Info.
 
-## Questions Collection [/questions]
+### Allowed HTTPs requests:
+<pre>
+POST    : To create resource 
+PUT     : Update resource
+GET     : Get a resource or list of resources
+DELETE  : To delete resource
+</pre>
 
-### List All Questions [GET]
+### Description Of Usual Server Responses:
+- 200 `OK` - the request was successful (some API calls may return 201 instead).
+- 201 `Created` - the request was successful and a resource was created.
+- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 400 `Bad Request` - the request could not be understood or was missing required parameters.
+- 404 `Not Found` - resource was not found.
+- 405 `Method Not Allowed` - requested method is not supported for resource.
+
+---
+
+**User attributes:**
+
+- id `(Number)` : unique identifier. 
+- name `(String)` : Name of a book.
+- price `(Int)` : Price. 
+- publication `(String)` : Name of publication.
+---
+
+## Informations : [/bookInfo/]
+---
+
+### Get all Books Info[GET]
 
 + Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+[{"_id":"5cbe0c791c9d44000097535d","name":"Aj Himur Biye","price":250,"publication":"Tamrolipi"},{"_id":"5cbe0dee520f3e040cb5720a","name":"Chole Jay Boshonter Din","price":300,"publication":"Onupom"},{"_id":"5cbe0f4d38c2b600043f0822","name":"Himur Rupali Ratri","price":300,"publication":"Chaya Prokashoni"}]
+### Add new Book Info [POST]
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "name": "Aj Himur Biye",
+            "price": 250,
+            "publication": "Tamrolipi"
         }
+
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /bookInfo/id
 
     + Body
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+            {   
+                "_id": "5cbe0c791c9d44000097535d",
+                "name": "Aj Himur Biye",
+                "price": 250,
+                "publication": "Tamrolipi"
             }
+            
+## Access Informations by id : [/bookInfo/{id}]
+
+---
+
+### Get a spacific data [GET]
+
+
++ Parameters
+    + id (number) - ID of the User in the form of a string
+
++ Response 200 (application/json)
+    
+        {   
+                "_id": "5cbe0c791c9d44000097535d",
+                "name": "Aj Himur Biye",
+                "price": 250,
+                "publication": "Tamrolipi"
+        }
+ 
+
+### Delete  a spacific data [DELETE]
+
+
++ Parameters
+    + id (number) - ID of the User in the form of a string
+
++ Response 200
